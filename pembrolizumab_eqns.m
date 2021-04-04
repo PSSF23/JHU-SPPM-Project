@@ -11,7 +11,7 @@ cl = 0.202 * (p.weight / 76.8)^0.595 * (p.BSLD / 89.6)^0.0872 ...
 v1 = 3.48 * (p.weight / 76.8)^0.489 * (p.ALB / 39.6)^-2.08 ...
     * exp(random(nd2));% L
 v2 = 4.06 * (p.weight / 76.8)^0.489 * exp(random(nd2)); % L
-q = 0.795 * (p.weight / 76.8)^0.595 * exp(random(nd1)); % L/hr
+q = 0.795 * (p.weight / 76.8)^0.595 * exp(random(nd1)); % L/Day
 
 % Complete pre-parameters by conditions
 if p.sex == 2
@@ -33,9 +33,9 @@ if p.IPI == 1
 end
 
 % Calculate parameters
-kcl = cl / v1; % 1/hr
-k12 = q / v1; % 1/hr
-k21 = q / v2; % 1/hr
+kcl = cl / v1; % 1/Day
+k12 = q / v1; % 1/Day
+k21 = q / v2; % 1/Day
 
 
 dydt = zeros(3, 1);
