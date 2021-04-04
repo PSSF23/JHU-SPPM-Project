@@ -1,8 +1,8 @@
 function dydt = pembrolizumab_eqns(t, y, p)
 
 % Define normal distributions
-nd1 = makedist('Normal', 0, 0.134);
-nd2 = makedist('Normal', 0, 0.0417);
+nd1 = makedist('Normal', 0, sqrt(0.134));
+nd2 = makedist('Normal', 0, sqrt(0.0417));
 
 % Calculate partial pre-parameters
 cl = 0.202 * (p.weight / 76.8)^0.595 * (p.BSLD / 89.6)^0.0872 ...
