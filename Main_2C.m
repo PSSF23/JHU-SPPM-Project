@@ -1,3 +1,5 @@
+clear all;
+close all;
 
 %% Average Patient statistics
 p.weight = 76.8;
