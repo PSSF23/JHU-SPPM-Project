@@ -32,7 +32,7 @@ HighCutoff(eGFR) = 403;
 
 %% Generate Simulations
 
-% Initiate Random Numbers (helpful to make results reproducible)
+% Initiate Random Numbers
 rng(0, 'twister');
 
 % Generate Subpopulations
@@ -40,7 +40,7 @@ for i = 1:4 % 4 params
     xtemp = SD(i) .* randn(NumberOfSubjects, 1) + Means(i);
     a = length(xtemp(xtemp < LowCutoff(i))) + length(xtemp(xtemp > HighCutoff(i)));
     cycle = 1;
-    while a > 0 % if there are any nonpositives, replace them
+    while a > 0
         xtemp(xtemp < LowCutoff(i) | xtemp > HighCutoff(i)) = SD(i) .* randn(a, 1) + Means(i);
         a = length(xtemp(xtemp <= LowCutoff(i))) + length(xtemp(xtemp > HighCutoff(i)));
         cycle = cycle + 1;
