@@ -72,3 +72,6 @@ octave-workspace
 
 # Mac files
 .DS_Store
+
+# Shiny files
+rsconnect

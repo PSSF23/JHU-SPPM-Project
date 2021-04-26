@@ -43,4 +43,4 @@ for i = 1:NumDose
 end
 
 plot(T, Y(:, 1))
-save 2mgQ3W.mat T Y
+save 2C/data/2mgQ3W.mat T Y
