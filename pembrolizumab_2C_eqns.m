@@ -1,4 +1,4 @@
-function dydt = pembrolizumab_eqns(t, y, p)
+function dydt = pembrolizumab_2C_eqns(t, y, p)
 
 % Pre-parameters
 cl = p.cl;
