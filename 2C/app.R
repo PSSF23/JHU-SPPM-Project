@@ -75,6 +75,7 @@ ui <- fluidPage(
     mainPanel(
       width = 9,
       plotlyOutput(outputId = "c", height = "600px"),
+      br(),
       plotlyOutput(outputId = "p", height = "600px")
     )
   )
@@ -150,7 +151,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "AUC for Central Compartment",
+        title = "12W AUC for Central Compartment",
         
         xaxis = list(
           title = "Dosing Scenario"
@@ -203,7 +204,7 @@ server <- function(input, output) {
       )
     plot_p <- plot_p %>%
       layout(
-        title = "AUC for Peripheral Compartment",
+        title = "12W AUC for Peripheral Compartment",
         xaxis = list(
           title = "Dosing Scenario"
         ),
