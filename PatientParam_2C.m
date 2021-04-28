@@ -1,5 +1,5 @@
 function p_post = PatientParam_2C(p)
-%Update cl,v1,v2 and Q based on basic statistics: weight, sex, etc.
+% Update cl,v1,v2 and Q based on basic statistics: weight, sex, etc.
 p_post = p;
 
 % Define normal distributions

@@ -1,99 +1,222 @@
-########## Load Packages ########
+# Load necessary packages
 library("R.matlab")
 library("tidyverse")
 library("patchwork")
-library("plotly")
 library("shiny")
+library("plotly")
 # ========================================================================
-# LOAD DATA
-Q3W_10_raw <- readMat("data/10mgQ3W.mat")
-Q2W_10_raw <- readMat("data/10mgQ2W.mat")
-Q3W_2_raw <- readMat("data/2mgQ3W.mat")
+# DATA
+# Process the simulation files
+weight1 <- readMat("data/AUC12WSen1Weight.mat")
+weight2 <- readMat("data/AUC12WSen2Weight.mat")
+weight3 <- readMat("data/AUC12WSen3Weight.mat")
+weight4 <- readMat("data/AUC12WSen4Weight.mat")
+weight5 <- readMat("data/AUC12WSen5Weight.mat")
 
-# Data frame
-Q3W_10_raw <- as.data.frame(Q3W_10_raw)
-Q3W_2_raw <- as.data.frame(Q3W_2_raw)
-Q2W_10_raw <- as.data.frame(Q2W_10_raw)
+sex_idx <- rep(c("Male", "Female"), 1000)
 
-# Combine data
-Q3W_10 <- cbind(Q3W_10_raw, Dose = rep.int("Q3W_10mg",
-  times = nrow(Q3W_10_raw)
-))
-Q3W_2 <- cbind(Q3W_2_raw, Dose = rep.int("Q3W_2mg",
-  times = nrow(Q3W_2_raw)
-))
-Q2W_10 <- cbind(Q2W_10_raw, Dose = rep.int("Q2W_10mg",
-  times = nrow(Q2W_10_raw)
-))
-names(Q3W_10) <- c("Time", "V1", "V2", "V3", "Dose")
-names(Q2W_10) <- c("Time", "V1", "V2", "V3", "Dose")
-names(Q3W_2) <- c("Time", "V1", "V2", "V3", "Dose")
-Data_all <- rbind(Q3W_10, Q3W_2, Q2W_10)
-Data_all <- rbind(
-  Data_all, c(0, 0, 0, 0, "Q3W_10mg"),
-  c(0, 0, 0, 0, "Q3W_2mg"), c(0, 0, 0, 0, "Q2W_10mg")
+auc1weight <- cbind.data.frame(
+  sex_idx, weight1$auc1, weight2$auc1, weight2$auc1, weight2$auc1,
+  weight2$auc1)
+
+names(auc1weight) <- c(
+  "Sex", "2mg/kg Q3W", "10mg/kg Q2W", "10mg/kg Q3W", "200mg Q3W", "400mg Q6W"
 )
-Data_all$Time <- as.double(Data_all$Time) / 7
-Data_all$V1 <- as.double(Data_all$V1)
-Data_all$V2 <- as.double(Data_all$V2)
-Data_all$V3 <- as.double(Data_all$V3)
-Data_all$Dose <- factor(Data_all$Dose)
+auc1weight <- pivot_longer(auc1weight,
+                     cols = 2:6, names_to = "Dosing",
+                     values_to = "AUC"
+)
 
-# Define theme
-theme <- theme_light() +
+auc2weight <- cbind.data.frame(
+  sex_idx, weight1$auc2, weight2$auc2, weight2$auc2, weight2$auc2,
+  weight2$auc2)
+
+names(auc2weight) <- c(
+  "Sex", "2mg/kg Q3W", "10mg/kg Q2W", "10mg/kg Q3W", "200mg Q3W", "400mg Q6W"
+)
+auc2weight <- pivot_longer(auc2weight,
+                     cols = 2:6, names_to = "Dosing",
+                     values_to = "AUC"
+)
+# ========================================================================
+# PLOTS
+# Plot graphs with simulations
+my_theme <- theme_light() +
   theme(
-    text = element_text(size = 16),
+    text = element_text(size = 24),
     plot.title = element_text(hjust = 0.5),
     axis.title.x = element_text(margin = margin(10, 0, 0, 0)),
     axis.title.y = element_text(margin = margin(0, 10, 0, 0)),
     axis.text.x = element_text(margin = margin(5, 0, 0, 0)),
     axis.text.y = element_text(margin = margin(0, 5, 0, 0))
   )
-
-# Plot graph
-plot1 <- ggplot() +
-  geom_line(data = Data_all, aes(
-    x = Time, y = V1, color = Dose,
-    linetype = Dose
-  ), size = 1.3) +
-  # scale_color_brewer(name = "", palette = "Dark2") +
-  scale_y_continuous(
-    trans = "log10", limits = c(5, 500),
-    breaks = c(5, 10, 20, 50, 100, 200, 500)
-  ) +
-  theme +
-  labs(
-    title = "Typical Pembrolizumab Concentration-Time Profile",
-    x = "Time Since First Dose, week",
-    y = "Pembrolizumab Concentration, mg/L"
-  ) +
-  theme(
-    panel.grid = element_blank(), legend.position = c(0.9, 0.15),
-    legend.text = element_text(size = 10),
-    legend.background = element_blank(),
-    legend.title = element_blank()
-  )
 # ========================================================================
 # APP UI
+# Design UI for app
 ui <- fluidPage(
-  titlePanel(strong("Modeling of Pembrolizumab with Different Dosing")),
-
-  h4(p("Showing drug concentrations and simulated parameters")),
-  h5(p(
-    "App by Haoyin Xu, Hanzhi Wang and Xiaoya Lu for ",
-    em("Systems Pharmacology and Personalized Medicine")
-  )),
-
+  titlePanel(strong("Modeling of Pembrolizumab with 5 Dosing Scenarios")),
+  
+  h4(p("Showing drug AUC in 2 compartments")),
+  h5(p("App by Haoyin Xu, Hanzhi Wang, and Xiaoya Lu for ", 
+  em("Systems Pharmacology and Personalized Medicine"))),
+  
   br(),
-  plotlyOutput(outputId = "dose")
+  
+  sidebarLayout(
+    sidebarPanel(
+      width = 3,
+      actionButton("S1", "Scenario 1"),
+      actionButton("S2", "Scenario 2"),
+      actionButton("S3", "Scenario 3"),
+      actionButton("S4", "Scenario 4"),
+      actionButton("S5", "Scenario 5"),
+    ),
+    
+    mainPanel(
+      width = 9,
+      plotlyOutput(outputId = "c", height = "600px"),
+      plotlyOutput(outputId = "p", height = "600px")
+    )
+  )
 )
 # ========================================================================
 # APP SERVER
+# Create R code for app functions
 server <- function(input, output) {
-  output$dose <- renderPlotly({
-    ggplotly(plot1)
+  auc1_s <- reactiveValues(data = NULL)
+  auc2_s <- reactiveValues(data = NULL)
+  
+  observeEvent(input$S1, {
+    auc1_s$data <- filter(auc1weight, Dosing == "2mg/kg Q3W")
+    auc2_s$data <- filter(auc2weight, Dosing == "2mg/kg Q3W")
+  })
+  
+  observeEvent(input$S2, {
+    auc1_s$data <- filter(auc1weight, Dosing == "10mg/kg Q2W")
+    auc2_s$data <- filter(auc2weight, Dosing == "10mg/kg Q2W")
+  })
+  
+  observeEvent(input$S3, {
+    auc1_s$data <- filter(auc1weight, Dosing == "10mg/kg Q3W")
+    auc2_s$data <- filter(auc2weight, Dosing == "10mg/kg Q3W")
+  })
+  
+  observeEvent(input$S4, {
+    auc1_s$data <- filter(auc1weight, Dosing == "200mg Q3W")
+    auc2_s$data <- filter(auc2weight, Dosing == "200mg Q3W")
+  })
+
+  observeEvent(input$S5, {
+    auc1_s$data <- filter(auc1weight, Dosing == "400mg Q6W")
+    auc2_s$data <- filter(auc2weight, Dosing == "400mg Q6W")
+  })
+  
+  output$c <- renderPlotly({
+    if (is.null(auc1_s$data)) {
+      return()
+    }
+    df <- auc1_s$data
+    plot_c <- df %>%
+      plot_ly(type = "violin")
+    plot_c <- plot_c %>%
+      add_trace(
+        x = ~ Dosing[df$Sex == "Male"],
+        y = ~ AUC[df$Sex == "Male"],
+        legendgroup = "M",
+        scalegroup = "M",
+        name = "Male",
+        box = list(
+          visible = T
+        ),
+        meanline = list(
+          visible = T
+        ),
+        color = I("blue")
+      )
+    plot_c <- plot_c %>%
+      add_trace(
+        x = ~ Dosing[df$Sex == "Female"],
+        y = ~ AUC[df$Sex == "Female"],
+        legendgroup = "F",
+        scalegroup = "F",
+        name = "Female",
+        box = list(
+          visible = T
+        ),
+        meanline = list(
+          visible = T
+        ),
+        color = I("pink")
+      )
+    plot_c <- plot_c %>%
+      layout(
+        title = "AUC for Central Compartment",
+        
+        xaxis = list(
+          title = "Dosing Scenario"
+        ),
+        yaxis = list(
+          title = "AUC",
+          zeroline = F
+        ),
+        violinmode = "group"
+      )
+    plot_c
+  })
+  
+  output$p <- renderPlotly({
+    if (is.null(auc2_s$data)) {
+      return()
+    }
+    df <- auc2_s$data
+    plot_p <- df %>%
+      plot_ly(type = "violin")
+    plot_p <- plot_p %>%
+      add_trace(
+        x = ~ Dosing[df$Sex == "Male"],
+        y = ~ AUC[df$Sex == "Male"],
+        legendgroup = "M",
+        scalegroup = "M",
+        name = "Male",
+        box = list(
+          visible = T
+        ),
+        meanline = list(
+          visible = T
+        ),
+        color = I("blue")
+      )
+    plot_p <- plot_p %>%
+      add_trace(
+        x = ~ Dosing[df$Sex == "Female"],
+        y = ~ AUC[df$Sex == "Female"],
+        legendgroup = "F",
+        scalegroup = "F",
+        name = "Female",
+        box = list(
+          visible = T
+        ),
+        meanline = list(
+          visible = T
+        ),
+        color = I("pink")
+      )
+    plot_p <- plot_p %>%
+      layout(
+        title = "AUC for Peripheral Compartment",
+        xaxis = list(
+          title = "Dosing Scenario"
+        ),
+        yaxis = list(
+          title = "AUC",
+          zeroline = F
+        ),
+        violinmode = "group"
+      )
+    plot_p
   })
 }
 # ========================================================================
 # BUILD APP
+# Knit UI and Server to create app
 shinyApp(ui = ui, server = server)
