@@ -1,3 +1,5 @@
+clear all;
+close all;
 
 %% Average Patient statistics
 p.weight = 76.8;
@@ -9,16 +11,19 @@ p.eGFR = 88.47;
 p.ALB = 39.6;
 p.BSLD = 89.6;
 p.Qt = 0.384; % L/day
+
 % Drug binding
 p.kdegD = 42.9 * 24; % Drug degradation in transporting to tumor 1/day
 p.kon = 2.88 * 24; % 1/nM-day
 p.koff = 0.144 * 24; % 1/day
 p.Emaxtp = 94.7;
 p.EC50tp = 1.46; % nM
+
 % T cell specs
 p.NTc = 1500; % cells/uL
 p.PD1Tc = 10000; % PD1/T cell
 p.PercT_PD1 = 0.3; % Percent of T cells expressing PD1
+
 % Tumor specs
 p.Tmulti = 4.3; % Ratio of PD1 in tumor vs blood
 p.L0Type = 'f'; % f for fast, i for intermediate and s for slow.
