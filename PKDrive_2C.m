@@ -1,4 +1,4 @@
-function [AUC1, AUC2] = PKDrive_2C(weight, albumin, sex, scenario)
+function [AUC1, AUC2, AUC4W1, AUC4W2, Cmax1, Cmax2] = PKDrive_2C(weight, albumin, sex, scenario)
 
 %% PARAMETERS
 p.weight = weight; % kg
@@ -64,5 +64,14 @@ for i = 1:NumDose
     Balance = [Balance; DrugIn + InitialDrug - CurrentDrug - DrugOut];
 end
 
+% 12W AUC
 AUC1 = trapz(T, Y(:, 1));
 AUC2 = trapz(T, Y(:, 2));
+
+% 4W AUC
+AUC4W1 = trapz(T(1:673), Y(1:673, 1));
+AUC4W2 = trapz(T(1:673), Y(1:673, 2));
+
+% C max
+Cmax1 = max(Y(:, 1));
+Cmax2 = max(Y(:, 2));
