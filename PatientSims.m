@@ -3,7 +3,7 @@ close all;
 
 %% Distribution Parameters
 
-NumberOfSubjects = 1000;
+NumberOfSubjects = 100;
 
 WEIGHT = 1;
 ALB = 2;
@@ -62,4 +62,5 @@ fprintf('Estimated glomerular filtration rate distribution, input mean %4.1f, si
 
 patientID = (1:NumberOfSubjects)';
 Params = xdist';
-save('PatientSims.mat', 'patientID', 'Params');
+name = sprintf('PatientSims_%d.mat', NumberOfSubjects);
+save(name, 'patientID', 'Params');
