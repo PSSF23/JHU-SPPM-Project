@@ -62,4 +62,4 @@ fprintf('Estimated glomerular filtration rate distribution, input mean %4.1f, si
 
 patientID = (1:NumberOfSubjects)';
 Params = xdist';
-save('2C/data/PatientSims.mat', 'patientID', 'Params');
+save('PatientSims.mat', 'patientID', 'Params');

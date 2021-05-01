@@ -3,7 +3,7 @@ close all;
 
 %% PREPARE　POPULATIONS
 
-load('2C/data/PatientSims.mat')
+load('../PatientSims.mat')
 
 %% RUN SIMULATIONS
 
@@ -47,5 +47,5 @@ auc4w1 = auc4w1';
 auc4w2 = auc4w2';
 cmax1 = cmax1';
 cmax2 = cmax2';
-name = sprintf('2C/data/PKSen%d%s.mat', SCENARIO, INPUT);
+name = sprintf('data/PKSen%d%s.mat', SCENARIO, INPUT);
 save(name, 'auc1', 'auc2', 'auc4w1', 'auc4w2', 'cmax1', 'cmax2')
