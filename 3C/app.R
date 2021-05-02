@@ -356,7 +356,7 @@ server <- function(input, output) {
           title = "Dosing Scenario"
         ),
         yaxis = list(
-          title = "Concentration",
+          title = "Change Ratio",
           zeroline = F
         ),
         violinmode = "group"
