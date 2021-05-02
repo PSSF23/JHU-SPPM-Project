@@ -1,23 +1,22 @@
-function [T,Y,Cmax,AUC12W,Vtumor, Dtumor] = Sen_Simulation_3C(p,y0,TimeLen,Interval,q)
+function [T, Y, Cmax, AUC12W, Vtumor, Dtumor] = Sen_Simulation_3C(p, y0, TimeLen, Interval, q)
+
 %% CALL SOLVER
 T = [];
 Y = [];
 Balance = [];
 
-
-options = odeset('MaxStep',5e-2, 'AbsTol', 1e-5,'RelTol', 1e-5,'InitialStep', 1e-2);
-
+options = odeset('MaxStep', 5e-2, 'AbsTol', 1e-5, 'RelTol', 1e-5, 'InitialStep', 1e-2);
 
 %% Parameters
-NumDose = TimeLen / Interval;  
+NumDose = TimeLen / Interval;
 
 %% Simulation
 for i = 1:NumDose
     TStart = (i - 1) * Interval;
     TEnd = i * Interval;
     [Ttemp, Ytemp] = ode45(@pembrolizumab_3C_eqns, [TStart:0.1:TEnd], y0, options, p);
-    T = [T(1:end-1); Ttemp]; 
-    Y = [Y(1:end-1,:); Ytemp];
+    T = [T(1:end-1); Ttemp];
+    Y = [Y(1:end-1, :); Ytemp];
     y0 = Y(end, :) + [q / p.v1, 0, 0, 0, 0, 0, 0, 0, 0];
     
     % Mass balance
@@ -30,15 +29,11 @@ for i = 1:NumDose
     Balance = [Balance; DrugIn + InitialDrug - CurrentDrug - DrugOut];
 end
 
-if mean(Balance)>1e-6 disp('Mass imbalance possible: '); 
+if mean(Balance) > 1e-6 disp('Mass imbalance possible: ');
     disp(Balance);
 end
 
-Cmax = max(Y(:,1));
-AUC12W = trapz(T,Y(:,5));
-Vtumor = Y(end,7);
-Dtumor = Y(end,9);
-
-
-
-
+Cmax = max(Y(:, 1));
+AUC12W = trapz(T, Y(:, 5));
+Vtumor = Y(end, 7);
+Dtumor = Y(end, 9);

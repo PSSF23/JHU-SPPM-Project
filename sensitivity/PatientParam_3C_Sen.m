@@ -8,7 +8,7 @@ nd2 = makedist('Normal', 0, sqrt(0.0417));
 nd3 = makedist('Normal', 0, sqrt(0.05)); % L0 random
 
 % Calculate partial pre-parameters
-rng('default') %for reproducibility in sensitivity analysis 
+rng('default') % for reproducibility in sensitivity analysis
 
 % Constants
 AV = 6.0221415 * 10^23; % Avrogadro's number

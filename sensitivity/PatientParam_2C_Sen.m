@@ -7,7 +7,7 @@ nd1 = makedist('Normal', 0, sqrt(0.134));
 nd2 = makedist('Normal', 0, sqrt(0.0417));
 
 % Calculate partial pre-parameters
-rng('default') %for reproducibility in sensitivity analysis 
+rng('default') %for reproducibility in sensitivity analysis
 cl = 0.202 * (p.weight / 76.8)^0.595 * (p.BSLD / 89.6)^0.0872 ...
     * (p.eGFR / 88.47)^0.135 * (p.ALB / 39.6)^-0.907 ...
     * exp(random(nd1));% L
