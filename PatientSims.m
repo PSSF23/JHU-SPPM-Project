@@ -3,7 +3,7 @@ close all;
 
 %% Distribution Parameters
 
-NumberOfSubjects = 100;
+NumberOfSubjects = 1000;
 
 WEIGHT = 1;
 ALB = 2;
@@ -26,7 +26,7 @@ LowCutoff(BSLD) = 10;
 LowCutoff(eGFR) = 25.4;
 
 HighCutoff(WEIGHT) = 96.8;
-HighCutoff(ALB) = 59;
+HighCutoff(ALB) = 57;
 HighCutoff(BSLD) = 895;
 HighCutoff(eGFR) = 403;
 

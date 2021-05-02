@@ -3,7 +3,7 @@ close all;
 
 %% PREPARE　POPULATIONS
 
-load('PatientSims_100.mat')
+load('../PatientSims_1000.mat')
 
 %% RUN SIMULATIONS
 

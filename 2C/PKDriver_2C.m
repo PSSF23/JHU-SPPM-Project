@@ -3,7 +3,7 @@ close all;
 
 %% PREPARE　POPULATIONS
 
-load('PatientSims_1000.mat')
+load('../PatientSims_1000.mat')
 
 %% RUN SIMULATIONS
 
@@ -26,7 +26,7 @@ switch INPUT
                 cmax1(2*(i - 1)+Female), cmax2(2*(i - 1)+Female)] = ...
                 PKDrive_2C(Params(i, 1), 39.6, Female, SCENARIO);
         end
-        
+
     case "Albumin"
         for i = 1:length(Params)
             % 12W AUC, 4W AUC & C max

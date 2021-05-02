@@ -26,7 +26,7 @@ p.PercT_PD1 = 0.3; % Percent of T cells expressing PD1
 % Tumor specs
 p.Tmulti = 4.3; % Ratio of PD1 in tumor vs blood
 p.L0Type = 'f'; % f for fast, i for intermediate and s for slow.
-p.gamma = 2; % 2.28; % Drug effect term
+p.gamma = 1.8; % 2.28 on paper; % Drug effect term
 p.SLtgScale = 'weight'; % weight scale or L0 scale
 p = PatientParam_3C(p); % Update Patient PK parameters.
 
@@ -70,7 +70,7 @@ options = odeset('MaxStep', 5e-2, 'AbsTol', 1e-5, 'RelTol', 1e-5, 'InitialStep',
 for i = 1:NumDose
     TStart = (i - 1) * Interval;
     TEnd = i * Interval;
-    [Ttemp, Ytemp] = ode45(@pembrolizumab_3C_eqns, [TStart:0.1:TEnd], y0, options, p);
+    [Ttemp, Ytemp] = ode15s(@pembrolizumab_3C_eqns, [TStart:0.1:TEnd], y0, options, p);
     T = [T(1:end-1); Ttemp];
     Y = [Y(1:end-1, :); Ytemp];
     y0 = Y(end, :) + [q / p.v1, 0, 0, 0, 0, 0, 0, 0, 0];
