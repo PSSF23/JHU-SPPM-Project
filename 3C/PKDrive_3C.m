@@ -1,4 +1,4 @@
-function [AUC1, AUC2, AUC4W1, AUC4W2, Cmax1, Cmax2] = PKDrive_3C(weight, albumin, sex, scenario)
+function [AUC, Cmax, TVCR, CCmax] = PKDrive_3C(weight, albumin, sex, scenario)
 
 %% PARAMETERS
 p.weight = weight; % kg
@@ -84,13 +84,13 @@ for i = 1:NumDose
 end
 
 % 12W AUC
-AUC1 = trapz(T, Y(:, 1));
-AUC2 = trapz(T, Y(:, 2));
-
-% 4W AUC
-AUC4W1 = trapz(T(1:673), Y(1:673, 1));
-AUC4W2 = trapz(T(1:673), Y(1:673, 2));
+AUC = trapz(T, Y(:, 1));
 
 % C max
-Cmax1 = max(Y(:, 1));
-Cmax2 = max(Y(:, 2));
+Cmax = max(Y(:, 1));
+
+% Tumor colume change ratio
+TVCR = Y(end, 7) / Y(1, 7) - 1;
+
+% Complex C max
+CCmax = max(Y(:, 5));
