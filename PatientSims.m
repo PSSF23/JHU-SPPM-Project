@@ -26,7 +26,7 @@ LowCutoff(BSLD) = 10;
 LowCutoff(eGFR) = 25.4;
 
 HighCutoff(WEIGHT) = 96.8;
-HighCutoff(ALB) = 59;
+HighCutoff(ALB) = 57;
 HighCutoff(BSLD) = 895;
 HighCutoff(eGFR) = 403;
 
@@ -62,4 +62,5 @@ fprintf('Estimated glomerular filtration rate distribution, input mean %4.1f, si
 
 patientID = (1:NumberOfSubjects)';
 Params = xdist';
-save('2C/data/PatientSims.mat', 'patientID', 'Params');
+name = sprintf('PatientSims_%d.mat', NumberOfSubjects);
+save(name, 'patientID', 'Params');
