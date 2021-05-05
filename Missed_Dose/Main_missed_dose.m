@@ -47,7 +47,7 @@ for dosing_method = 1:5
     for retake_time = 1:5
         WAIT = waitbar(0, strcat('Now progress dosing method ', int2str(dosing_method), ...
             ' retake time ', int2str(retake_time), '...'));
-        for pID = 1:length(patient_weight_ALB)
+        for pID = 1:2 %length(patient_weight_ALB)
             patient = patient_weight_ALB(pID);
             % Dose regimen
             [Interval, Dose, fixed, dose_name] = dose_regime(dosing_method, patient);
@@ -134,3 +134,47 @@ legend('2C model', '3C model')
 title('Comparison of Response with 10mg/kg Dosing Method')
 xlabel('Time, weeks')
 ylabel('Concentration, mg/L')
+
+%% Typical profile for 2C models--10mg/kg Q3W
+% Generate Time-Concentration profile of central compartment for 2C models with 7 schemes: 5
+% retake, 1 miss and 1 full
+load('Patients_2C.mat');
+pID = round(rand(1)*1000);
+patient = patient_weight_ALB(pID);
+dosing_method = 2;
+[Interval, Dose, fixed, dose_name] = dose_regime(dosing_method, patient);
+%Drivers
+[~, ~, ~, T_full_2C, Y_full_2C] = full_dose_driver_2C(patient, TimeLen, Interval, fixed, Dose);
+[~, ~, ~, T_miss_2C, Y_miss_2C] = missed_dose_driver_2C(patient, TimeLen, Interval, fixed, Dose);
+Y_full_2C = Y_full_2C(:, 1);
+Y_miss_2C = Y_miss_2C(:, 1);
+T_retake_2C = [];
+Y_retake_2C = [];
+for retake_time = 1:5
+    [~, ~, ~, T_temp, Y_temp] = retaken_dose_driver_2C(patient, TimeLen, Interval, fixed, Dose, retake_time);
+    T_retake_2C = [T_retake_2C, T_temp(:, 1)];
+    Y_retake_2C = [Y_retake_2C, Y_temp(:, 1)];
+end
+save('data/2C_T.mat', 'T_full_2C', 'T_miss_2C', 'T_retake_2C');
+save('data/2C_Y.mat', 'Y_full_2C', 'Y_miss_2C', 'Y_retake_2C');
+
+%% Typical profile for 3C models--10mg/kg Q3W
+% Generate Time-Concentration profile of central compartment for 2C models with 7 schemes: 5
+% retake, 1 miss and 1 full
+load('Patients_3C.mat');
+patient = patient_weight_ALB(pID); %Same pID as 2C
+dosing_method = 2;
+[Interval, Dose, fixed, dose_name] = dose_regime(dosing_method, patient);
+[~, ~, ~, ~, ~, T_full_3C, Y_full_3C] = full_dose_driver_3C(patient, TimeLen, Interval, fixed, Dose);
+[~, ~, ~, ~, ~, T_miss_3C, Y_miss_3C] = missed_dose_driver_3C(patient, TimeLen, Interval, fixed, Dose);
+Y_full_3C = [Y_full_3C(:, 1), Y_full_3C(:, 5) ./ (Y_full_3C(:, 5) + Y_full_3C(:, 6)) * 100, Y_full_3C(:, 7)];
+Y_miss_3C = [Y_miss_3C(:, 1), Y_miss_3C(:, 5) ./ (Y_miss_3C(:, 5) + Y_miss_3C(:, 6)) * 100, Y_miss_3C(:, 7)];
+T_retake_3C = [];
+Y_retake_3C = [];
+for retake_time = 1:5
+    [~, ~, ~, ~, ~, T_temp, Y_temp] = retaken_dose_driver_3C(patient, TimeLen, Interval, fixed, Dose, retake_time);
+    T_retake_3C = [T_retake_3C, T_temp(:, 1)];
+    Y_retake_3C = [Y_retake_3C, Y_temp(:, 1), Y_temp(:, 5) ./ (Y_temp(:, 5) + Y_temp(:, 6)) * 100, Y_temp(:, 7)];
+end
+save('data/3C_T.mat', 'T_full_3C', 'T_miss_3C', 'T_retake_3C');
+save('data/3C_Y.mat', 'Y_full_3C', 'Y_miss_3C', 'Y_retake_3C');
