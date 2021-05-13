@@ -129,7 +129,7 @@ my_theme <- theme_light() +
 ui <- fluidPage(
   titlePanel(strong("Modeling of Pembrolizumab with 5 Dosing Scenarios")),
 
-  h4(p("Showing drug AUC, Cmax, tumor volume change ratio & Pembrolizumab:PD-1 complex Cmax in 3 compartments")),
+  h4(p("Showing drug AUC, Cmax, tumor volume change ratio & pembrolizumab:PD-1 complex Cmax in 3 compartments")),
   h5(p(
     "App by Haoyin Xu, Hanzhi Wang, and Xiaoya Lu for ",
     em("Systems Pharmacology and Personalized Medicine")
@@ -140,8 +140,8 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 3,
-      actionButton("W", "Weight"),
-      actionButton("A", "Albumin"),
+      actionButton("W", "See variations caused by weight"),
+      actionButton("A", "See variations caused by albumin"),
       # br(),
       # br(),
       # actionButton("S1", "Scenario 1"),
@@ -153,13 +153,13 @@ ui <- fluidPage(
 
     mainPanel(
       width = 9,
-      plotlyOutput(outputId = "auc", height = "600px"),
+      plotlyOutput(outputId = "auc", height = "300px"),
       br(),
-      plotlyOutput(outputId = "cmax", height = "600px"),
+      plotlyOutput(outputId = "cmax", height = "300px"),
       br(),
-      plotlyOutput(outputId = "tvcr", height = "600px"),
+      plotlyOutput(outputId = "tvcr", height = "300px"),
       br(),
-      plotlyOutput(outputId = "ccmax", height = "600px")
+      plotlyOutput(outputId = "ccmax", height = "300px")
     )
   )
 )
@@ -248,7 +248,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "12W AUC for Central Compartment",
+        title = "Drug AUC in Blood for 12 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"
@@ -299,7 +299,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "Max Drug Concentration for Central Compartment",
+        title = "Max Drug Concentration in Blood for 12 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"
@@ -350,7 +350,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "Tumor Volume Change Ratio",
+        title = "Tumor Volume Change Ratio for 12 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"
@@ -401,7 +401,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "Max Complex Concentration in Tumor",
+        title = "Max Drug:Receptor Complex Concentration in Tumor for 12 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"

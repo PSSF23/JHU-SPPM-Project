@@ -178,8 +178,8 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 3,
-      actionButton("W", "Weight"),
-      actionButton("A", "Albumin"),
+      actionButton("W", "See variations caused by weight"),
+      actionButton("A", "See variations caused by albumin"),
       # br(),
       # br(),
       # actionButton("S1", "Scenario 1"),
@@ -191,17 +191,17 @@ ui <- fluidPage(
 
     mainPanel(
       width = 9,
-      plotlyOutput(outputId = "c", height = "600px"),
+      plotlyOutput(outputId = "c", height = "300px"),
       br(),
-      plotlyOutput(outputId = "p", height = "600px"),
+      plotlyOutput(outputId = "p", height = "300px"),
       br(),
-      plotlyOutput(outputId = "c4w", height = "600px"),
+      plotlyOutput(outputId = "c4w", height = "300px"),
       br(),
-      plotlyOutput(outputId = "p4w", height = "600px"),
+      plotlyOutput(outputId = "p4w", height = "300px"),
       br(),
-      plotlyOutput(outputId = "cm", height = "600px"),
+      plotlyOutput(outputId = "cm", height = "300px"),
       br(),
-      plotlyOutput(outputId = "pm", height = "600px")
+      plotlyOutput(outputId = "pm", height = "300px")
     )
   )
 )
@@ -296,7 +296,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "12W AUC for Central Compartment",
+        title = "Drug AUC in Blood for 12 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"
@@ -346,7 +346,7 @@ server <- function(input, output) {
       )
     plot_p <- plot_p %>%
       layout(
-        title = "12W AUC for Peripheral Compartment",
+        title = "Drug AUC in Tissue for 12 Weeks",
         xaxis = list(
           title = "Dosing Scenario"
         ),
@@ -396,7 +396,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "4W AUC for Central Compartment",
+        title = "Drug AUC in Blood for 4 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"
@@ -446,7 +446,7 @@ server <- function(input, output) {
       )
     plot_p <- plot_p %>%
       layout(
-        title = "4W AUC for Peripheral Compartment",
+        title = "Drug AUC in Tissue for 4 Weeks",
         xaxis = list(
           title = "Dosing Scenario"
         ),
@@ -496,7 +496,7 @@ server <- function(input, output) {
       )
     plot_c <- plot_c %>%
       layout(
-        title = "Max Concentration for Central Compartment",
+        title = "Max Drug Concentration in Blood for 12 Weeks",
 
         xaxis = list(
           title = "Dosing Scenario"
@@ -546,7 +546,7 @@ server <- function(input, output) {
       )
     plot_p <- plot_p %>%
       layout(
-        title = "Max Concentration for Peripheral Compartment",
+        title = "Max Drug Concentration in Tissue for 12 Weeks",
         xaxis = list(
           title = "Dosing Scenario"
         ),
