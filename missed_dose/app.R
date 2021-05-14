@@ -1,3 +1,4 @@
+## This is the App for Missed Dose Analysis
 ########## Load Packages ########
 library("R.matlab")
 library("tidyverse")
@@ -804,7 +805,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   output$'2C_Cmax' <- renderPlotly({
     plot_Cmax_2C <- ggplot(Cmax_2C_selected(), aes(x = Scheme, y = Cmax)) +
       geom_violin(aes(fill = Scheme), scale = "width", alpha = 0.4) +
@@ -835,7 +836,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   output$'2C_Ctrough' <- renderPlotly({
     plot_Ctrough_2C <-
       ggplot(Ctrough_2C_selected(), aes(x = Scheme, y = Ctrough)) +
@@ -867,7 +868,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   #========== 3C Typical Data ==========
   YT_3C_selected <-
     reactive(filter(YT_3C, Scheme %in% input$'3C_typical_scheme'))
@@ -975,7 +976,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   output$'3C_Cmax' <- renderPlotly({
     plot_Cmax_3C <- ggplot(Cmax_3C_selected(), aes(x = Scheme, y = Cmax)) +
       geom_violin(aes(fill = Scheme), scale = "width", alpha = 0.4) +
@@ -1006,7 +1007,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   output$'3C_Ctrough' <- renderPlotly({
     plot_Ctrough_3C <-
       ggplot(Ctrough_3C_selected(), aes(x = Scheme, y = Ctrough)) +
@@ -1038,7 +1039,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   output$'3C_DCmin' <- renderPlotly({
     plot_DCmin_3C <-
       ggplot(DCmin_3C_selected(), aes(x = Scheme, y = DrugComplex_min)) +
@@ -1072,7 +1073,7 @@ server <- function(input, output) {
         font = list(size = 10)
       )))
   })
-  
+
   output$'3C_TumorR' <- renderPlotly({
     plot_TumorR_3C <-
       ggplot(TumorR_3C_selected(), aes(x = Scheme, y = Tumor_Ratio)) +
