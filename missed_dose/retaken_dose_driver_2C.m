@@ -40,7 +40,7 @@ for i = 1:NumDose
         TStart = (i - 1) * Interval;
         TEnd = i * Interval;
     end
-    [Ttemp, Ytemp] = ode45(@pembrolizumab_2C_eqns, [TStart:0.1:TEnd], y0, options, p);
+    [Ttemp, Ytemp] = ode15s(@pembrolizumab_2C_eqns, [TStart:0.1:TEnd], y0, options, p);
     T = [T; Ttemp];
     Y = [Y; Ytemp];
     
@@ -51,17 +51,16 @@ for i = 1:NumDose
     else
         y0 = Y(end, :) + [q / p.v1, 0, 0];
     end
-    %Mass balance
-    DrugIn = q * i;
-    InitialDrug = 0;
-    CurrentDrug = Ytemp(:, 1) * p.v1 + Ytemp(:, 2) * p.v2;
-    DrugOut = Ytemp(:, 3) * p.v1; %Assume v3 = v1
-    Balance = [Balance; DrugIn + InitialDrug - CurrentDrug - DrugOut];
+    %     %Mass balance
+    %     DrugIn = q*i;
+    %     InitialDrug = 0;
+    %     CurrentDrug = Ytemp(:,1)*p.v1+Ytemp(:,2)*p.v2;
+    %     DrugOut = Ytemp(:,3)*p.v1; %Assume v3 = v1
+    %     Balance =[Balance;DrugIn+InitialDrug-CurrentDrug-DrugOut];
 end
 %plot(T/7,Y(:,1)) %debug
 AUC = trapz(T, Y(:, 1));
 Cmax = max(Y(:, 1));
 Ctrough = min(Y(10:end, 1));
-
 
 end

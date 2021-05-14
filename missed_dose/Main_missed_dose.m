@@ -129,6 +129,7 @@ TimeLen = 24;
 [Interval, Dose, fixed, dose_name] = dose_regime(dosing_method, patient);
 [~, ~, ~, T_2c, Y_2c] = full_dose_driver_2C(patient, TimeLen, Interval, fixed, Dose);
 [~, ~, ~, ~, ~, T_3c, Y_3c] = full_dose_driver_3C(patient, TimeLen, Interval, fixed, Dose);
+figure
 plot(T_2c/7, Y_2c(:, 1), T_3c/7, Y_3c(:, 1))
 legend('2C model', '3C model')
 title('Comparison of Response with 10mg/kg Dosing Method')

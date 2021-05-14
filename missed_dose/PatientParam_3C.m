@@ -8,20 +8,20 @@ nd2 = makedist('Normal', 0, sqrt(0.0417));
 nd3 = makedist('Normal', 0, sqrt(0.05)); % L0 random
 
 % Constants
-AV = 6.0221415*10^23; % Avrogadro's number
+AV = 6.0221415 * 10^23; % Avrogadro's number
 
 % Calculate partial pre-parameters
-cl = 0.202 * (p.weight / 76.8)^0.595  ...
+cl = 0.202 * (p.weight / 76.8)^0.595 ...
     * (p.eGFR / 88.47)^0.135 * (p.ALB / 39.6)^-0.907 ...
     * exp(random(nd1));% L
 v1 = 3.48 * (p.weight / 76.8)^0.489 * (p.ALB / 39.6)^-2.08 ...
     * exp(random(nd2));% L
 v2 = 4.06 * (p.weight / 76.8)^0.489 * exp(random(nd2)); % L
 Q = 0.795 * (p.weight / 76.8)^0.595 * exp(random(nd1)); % L/day
-kdeg = 0.0194 * (p.weight * 1000 / 20 )^-0.25 * 24; % 1/day
+kdeg = 0.0194 * (p.weight * 1000 / 20)^-0.25 * 24; % 1/day
 Tmulti = p.Tmulti * 1000 / (p.NTc * p.PercT_PD1);
 P0 = Tmulti * (p.NTc * 10^6 * p.PercT_PD1 * p.PD1Tc) / AV * 10^9; % Inital PD1 Concentration nM
-vt0 = 4/3 * pi * (p.BSLD / 6)^3; % mm^3
+vt0 = 4 / 3 * pi * (p.BSLD / 6)^3; % mm^3
 switch p.L0Type
     case 'f'
         L0 = 0.0088 * exp(random(nd3));
@@ -29,13 +29,13 @@ switch p.L0Type
         L0 = 0.0036 * exp(random(nd3));
     case 's'
         L0 = 0.0017 * exp(random(nd3));
-end 
+end
 switch p.SLtgScale
     case 'weight'
         SLtg = 1.98 * 10^-5 * (p.weight * 1000 / 20)^-0.25;
     case 'L0'
         SLtg = 1.98 * 10^-5 * (L0 / 0.113);
-end 
+end
 % Complete pre-parameters by conditions
 if p.sex == 2
     cl = cl * (1 - 0.152);
