@@ -16,6 +16,7 @@ The code validation and optimization is in the same folder as 'missed dose'. Run
 
 
 ## Sensitivity Analysis:
+- https://julialu49.shinyapps.io/Sensitivity_Analysis_2C/
 1. For 2C: Run SensitivityAnalysis_2C.m for local and global sensitivity analysis (3 different cases)
    1. Case 1: Run and get the local sensitivity for 2C model
    2. Case 2: Run and get global VS local sensitivity for 2C model
@@ -29,6 +30,8 @@ The code validation and optimization is in the same folder as 'missed dose'. Run
 
 
 ## PK:
+- https://pssf23.shinyapps.io/Pem-2C/
+- https://pssf23.shinyapps.io/Pem-3C/
 1. Use PatientSims.m to generate patient simulations or use PatientSims_1000.mat directly.
 2. For 2C: Run PKDriver_2C.m for all 5 scenarios and 2 variations: Weight and Albumin.
 3. For 3C: Run PKDriver_3C.m for all 5 scenarios and 2 variations: Weight and Albumin.
@@ -36,8 +39,9 @@ The code validation and optimization is in the same folder as 'missed dose'. Run
 
 
 ## Missed Dose:
+- https://gary777.shinyapps.io/PKPD_FinalProject/
 Warning: the run time is around 2 hours for Step 2! The data is already generated in the 'data' folder under ‘missed dose’. Run the codes under this folder.
-All figures (31-36) or their alternatives can be found in the Shiny app (https://gary777.shinyapps.io/PKPD_FinalProject/). The facet arrangements in the report are different from Shiny App due to visualization concerns. The steps below will replicate the figures used in the report.
+All figures (31-36) or their alternatives can be found in the Shiny app. The facet arrangements in the report are different from Shiny App due to visualization concerns. The steps below will replicate the figures used in the report.
 1. Check that there is a folder named 'data' in the directory, and it contains 2.2MB data.
 2. Run Main_missed_dose.m to generate data. (Please skip this if you don't want to spend hours regenerating everything in the 'data' folder)
 3. Open App.R and hit 'Run App' (remember to change working directory and make sure packages are installed)
