@@ -45,17 +45,8 @@ All figures (31-36) or their alternatives can be found in the Shiny app. The fac
 1. Check that there is a folder named 'data' in the directory, and it contains 2.2MB data.
 2. Run Main_missed_dose.m to generate data. (Please skip this if you don't want to spend hours regenerating everything in the 'data' folder)
 3. Open App.R and hit 'Run App' (remember to change working directory and make sure packages are installed)
-4. To generate Figure 31
-   1. Run App.R. In Shiny app, choose 'Missed Dose 2C Results'--'Typical Concentration-Time Profile', then select '4/5 Interval' and 'miss'
-5. Preparation for generating Figure 32-36
-   1. In App.R, run line 1-295
-6. To generate Figure 32
-   1. In App.R, run line 65-74
-7. To generate Figure 33
-   1.  In App.R, run line 76-84
-8. To generate Figure 34
-   1. In App.R, run line 86-94
-9. To generate Figure 35
-   1.  In App.R, run line 182-190
-10. To generate Figure 36
-   1. In APp.R, run line 192-201
+
+## References
+- Ahamadi M, Freshwater T, Prohn M, Li CH, de Alwis DP, de Greef R, Elassaiss-Schaap J, Kondic A, Stone JA. Model-Based Characterization of the Pharmacokinetics of Pembrolizumab: A Humanized Anti-PD-1 Monoclonal Antibody in Advanced Solid Tumors. CPT Pharmacometrics Syst Pharmacol. 2017 Jan;6(1):49-57. doi: 10.1002/psp4.12139. Epub 2016 Nov 14. PMID: 27863186; PMCID: PMC5270291.
+- Lindauer A, Valiathan CR, Mehta K, Sriram V, de Greef R, Elassaiss-Schaap J, de Alwis DP. Translational Pharmacokinetic/Pharmacodynamic Modeling of Tumor Growth Inhibition Supports Dose-Range Selection of the Anti-PD-1 Antibody Pembrolizumab. CPT Pharmacometrics Syst Pharmacol. 2017 Jan;6(1):11-20. doi: 10.1002/psp4.12130. Epub 2016 Nov 8. PMID: 27863176; PMCID: PMC5270293.
+- Simeoni M, Magni P, Cammia C, De Nicolao G, Croci V, Pesenti E, Germani M, Poggesi I, Rocchetti M. Predictive pharmacokinetic-pharmacodynamic modeling of tumor growth kinetics in xenograft models after administration of anticancer agents. Cancer Res. 2004 Feb 1;64(3):1094-101. doi: 10.1158/0008-5472.can-03-2524. PMID: 14871843.
