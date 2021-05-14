@@ -1,4 +1,3 @@
-
 # ==============================================================================
 # LOAD PACKAGES
 
@@ -419,39 +418,73 @@ ui <- dashboardPage(
         fluidRow(column(
           10,
           h2("Local and global sensitivity analysis for five different dosing methods of Pembrolizumab"),
-          h4("The model we used for sensitivity analysis is a two compartment model."),
-          h3("Local Sensitivity"),
+          h4("The model we used for sensitivity analysis include 2C and 3C models."),
+          h3("Local Sensitivity 2C"),
           h4("Here we have sensitivity analysis for 5 different dosing methods. Three weight-based dosing 
                       include 2mg/kg every 3 weeks, 10mg/kg every 2 weeks, 10mg/kg every 3 weeks; and two fixed dosing 
                       methods include 200mg every 3 weeks and 400mg every 6 weeks."),
-          br(),
 
           h4(
             "Eight parameters include", em("baseline tumor burden, albumin concentration, estimated glomerular 
-                      filtration rate, weight, intercompartment transport, volume of central compartment and periopheral
+                      filtration rate, weight, intercompartment transport, volume of central compartment and peripheral
                       compartment"),
             "and",
-            em("Clearance Constant"), "were increased 10%",
-            "Data simulated from MATLAB ODE solver."
+            em("Clearance Constant"), "were increased 10%"
           ),
-          h3("Global Sensitivity"),
+          h3("Global Sensitivity 2C"),
           h4(
             "In case of the global sensitivity analysis, we pick the two parameters with relative high senstivity:",
             em("albumin concentration"),
             "and",
             em("weight"),
-            "to understand how will wide range of change impact the AUCs and maximum concentrations. The first part
+            "to understand how will wide range of change impact the AUCs and maximum concentrations. The first part will 
+                                     be two-dimensional global sensitivity analysis.The second part
                                      of the global sensitivity is to conduct local paramter vs global albumin and weight ranges, each of the parameter 
-                                     was increased for 5%. The second
-                                      part will be two-dimensional global sensitivity analysis."
+                                     was increased for 5%. "
           ),
-          h5(p("Final Project", em("Systems Pharmacology and 
-                  Personalized Medicine.")))
+          h3("Local Sensitivity 3C"),
+          h4("We have conducted sensitivity analysis for the same 5 different dosing methods."),
+          h4(
+            "For 3C model, 15 parameters include", em("baseline tumor burden, albumin concentration, estimated glomerular 
+                                                                                  filtration rate, weight, effect of the drug on tumor volume, drug 
+                                                                                  degradation and binding (kon, koff, kdegD), 
+                                                                                 the ability of the complex to regulate PD-1 level (Emaxtp, EC50tp),
+                                                                                 the number of targets/receptors available in tumor (NTc, PD1Tc, PercT_PD1)"),
+            "and",
+            em("in tumor (Tmulti)"), "were increased 10%. We then look at outputs include AUC in blood, Cmax in blood, tumor 
+                                     changing ratio and drug-receptor complex level in tumor."
+          ),
+          h3("Global Sensitivity 3C"),
+          h4(
+            "For the global sensitivity analysis 3C, again we picked the the same parameters as 2C model:",
+            em("albumin concentration"),
+            "and",
+            em("weight.")
+          ),
+          h4("Two-dimensional global sensitivity will be investigated."),
+          h5(p(
+            "Final Project",
+            em("Systems Pharmacology and 
+                                   Personalized Medicine.")
+          ))
         ))
       ),
       # =====================================================================================================================
       tabItem(
         tabName = "heatmaps", icon = "dashboard",
+        box(
+          title = "Introduction", width = 12, solidHeader = TRUE, status = "warning",
+          h4("Here we have global sensitivity analysis for 5 different dosing methods."),
+          br(),
+          h4(
+            "Eight parameters include", em("baseline tumor burden, albumin concentration, estimated glomerular 
+                      filtration rate, weight, intercompartment transport, volume of central compartment and periopheral
+                      compartment"),
+            "and",
+            em("Clearance Constant"), "were increased 10%."
+          ),
+          h5("Data simulated from MATLAB ODE solver.")
+        ),
         fluidRow(
           box(
             title = "Selection", width = 3, solidHeader = TRUE, status = "primary",
@@ -495,8 +528,21 @@ ui <- dashboardPage(
       tabItem(
         tabName = "conctime",
         box(
+          title = "Introduction", width = 12, solidHeader = TRUE, status = "warning",
+          h4("Select the parameters that you want to change and the concentration in plasma will be displayed"),
+          br(),
+          h4(
+            "Eight parameters include", em("baseline tumor burden, albumin concentration, estimated glomerular 
+                      filtration rate, weight, intercompartment transport, volume of central compartment and peripheral
+                      compartment"),
+            "and",
+            em("Clearance Constant"), "were increased 10%."
+          ),
+          h5("Data simulated from MATLAB ODE solver.")
+        ),
+        box(
           title = "Selection", width = 3, solidHeader = TRUE, status = "primary",
-          selectInput(
+          checkboxGroupInput(
             inputId = "parameter1",
             label = "Choose which parameters to display:",
             choices = c(
@@ -511,7 +557,7 @@ ui <- dashboardPage(
             ),
             selected = c("cl")
           ),
-          selectInput(
+          checkboxGroupInput(
             inputId = "dosing1",
             label = "Choose which dosing method to display:",
             choices = c(
@@ -535,6 +581,24 @@ ui <- dashboardPage(
       # Global Sensitivity - 2compartment
       tabItem(
         tabName = "glo_para",
+        box(
+          title = "Introduction", width = 12, solidHeader = TRUE, status = "warning",
+          h4(
+            "We picked the two parameters with relative high senstivity:",
+            em("albumin concentration"),
+            "and",
+            em("weight."),
+            "This is for conducting the sensitivity analysis with wide range of albumin and weight."
+          ),
+          br(),
+          h4(
+            "Select the dosing method you would like to investigate and then select which output to display",
+            em("AUC in blood 4 weeks, AUC in blood 12 weeks "),
+            "or",
+            em("Cmax in blood 12 weeks."),
+            h5("Data simulated from MATLAB ODE solver.")
+          )
+        ),
         fluidRow(
           box(
             title = "Selection", width = 3, solidHeader = TRUE, status = "primary",
@@ -586,6 +650,23 @@ ui <- dashboardPage(
       ),
       tabItem(
         tabName = "global",
+        box(
+          title = "Introduction", width = 12, solidHeader = TRUE, status = "warning",
+          h4(
+            "We picked the two parameters with relative high senstivity:",
+            em("albumin concentration"),
+            "and",
+            em("weight.")
+          ),
+          br(),
+          h4(
+            "Select the dosing method you would like to investigate and then select which output to display",
+            em("AUC in blood 4 weeks, AUC in blood 12 weeks "),
+            "or",
+            em("Cmax in blood 12 weeks."),
+          ),
+          h5("Data simulated from MATLAB ODE solver.")
+        ),
         fluidRow(
           box(
             title = "Selection", width = 3, solidHeader = TRUE, status = "primary",
@@ -623,6 +704,23 @@ ui <- dashboardPage(
       ## =============================================================================================
       tabItem(
         tabName = "local3c", icon = "dashboard",
+        box(
+          title = "Introduction", width = 12, solidHeader = TRUE, status = "warning",
+          h4("We have conducted sensitivity analysis for the same 5 different dosing methods."),
+          h4(
+            "For 3C model, 15 parameters include", em("baseline tumor burden, 
+                                                              albumin concentration, estimated glomerular 
+                                                              filtration rate, weight, effect of the drug on tumor volume, drug 
+                                                              degradation and binding (kon, koff, kdegD), 
+                                                              the ability of the complex to regulate PD-1 level (Emaxtp, EC50tp),
+                                                              the number of targets/receptors available in tumor (NTc, PD1Tc, PercT_PD1)"),
+            "and",
+            em("in tumor (Tmulti)"), "were increased 10%. Then select dosing method and outputs include AUC in blood, Cmax in blood, tumor 
+                                     changing ratio and drug-receptor complex level in tumor."
+          ),
+          h5("Data simulated from MATLAB ODE solver.")
+        ),
+
         fluidRow(
           box(
             title = "Selection", width = 3, solidHeader = TRUE, status = "primary",
@@ -684,6 +782,17 @@ ui <- dashboardPage(
       ),
       tabItem(
         tabName = "global3c", icon = "dashboard",
+        box(
+          title = "Introduction", width = 12, solidHeader = TRUE, status = "warning",
+          h4(
+            "For the global sensitivity analysis 3C, again we picked the the same parameters as 2C model:",
+            em("albumin concentration"),
+            "and",
+            em("weight.")
+          ),
+          h4("Then select the dosing method and output of interest"),
+          h5("Data simulated from MATLAB ODE solver.")
+        ),
         fluidRow(
           box(
             title = "Selection", width = 3, solidHeader = TRUE, status = "primary",
@@ -739,7 +848,7 @@ server <- function(input, output) {
       geom_tile() +
       scale_fill_distiller(name = "Sensitivity", palette = "RdBu", limits = c(-1, 1.5)) +
       labs(
-        title = "Local Sensitivity of AUC in Blood of 4 weeks",
+        title = "Local Sensitivity of AUC in Blood, 4 weeks",
         x = "Dosing Methods"
       ) +
       heatmap_theme
@@ -758,7 +867,7 @@ server <- function(input, output) {
       geom_tile() +
       scale_fill_distiller(name = "Sensitivity", palette = "RdBu", limits = c(-1, 1.1)) +
       labs(
-        title = "Parameter Local Sensitivity of AUC in Blood of 12 weeks",
+        title = "Local Sensitivity of AUC in Blood, 12 weeks",
         x = "Dosing Methods"
       ) +
       heatmap_theme
@@ -775,7 +884,7 @@ server <- function(input, output) {
       geom_tile() +
       scale_fill_distiller(name = "Sensitivity", palette = "RdBu", limits = c(-1, 2)) +
       labs(
-        title = "Parameter Local Sensitivity of Maximum Concentration in Blood",
+        title = "Local Sensitivity of Cmax in Blood, 12 weeks",
         x = "Dosing Methods"
       ) +
       heatmap_theme
@@ -786,8 +895,7 @@ server <- function(input, output) {
 
   output$Plotconc <- renderPlotly({
     Data_filtered1 <- filter(Data, Parameter == "base" & Dosing == input$dosing1)
-    Data_filtered2 <- filter(Data, Parameter == input$parameter1 & Dosing == input$dosing1)
-
+    Data_filtered2 <- filter(Data, Parameter %in% input$parameter1 & Dosing %in% input$dosing1)
     # Plot line Graph
     Plotconc <- ggplot(data = NULL) +
       geom_line(data = Data_filtered1, aes(x = Time, y = Concentration, color = Parameter), size = 0.75) +
@@ -864,7 +972,7 @@ server <- function(input, output) {
     globe <- ggplot(data = Globe_filtered, aes(x = Albumin, y = Weight, fill = Sens)) +
       geom_tile() +
       scale_fill_distiller(
-        name = "Sensitivity", palette = "YlGnBu",
+        name = "Output", palette = "YlGnBu",
         limits = c(min(Globe_filtered["Sens"]), max(Globe_filtered["Sens"]))
       ) +
       labs(
@@ -909,7 +1017,7 @@ server <- function(input, output) {
     globe3C <- ggplot(data = Globe3C_filtered, aes(x = Albumin, y = Weight, fill = Sens)) +
       geom_tile() +
       scale_fill_distiller(
-        name = "Sensitivity", palette = "YlGnBu",
+        name = "Output", palette = "YlGnBu",
         limits = c(min(Globe3C_filtered["Sens"]), max(Globe3C_filtered["Sens"]))
       ) +
       labs(
