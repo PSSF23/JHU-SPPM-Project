@@ -15,7 +15,7 @@ P0 = p.P0; %nM
 vis0 = p.vt0 * 0.55 / 10^6; % L
 L0 = p.L0;
 gamma = p.gamma; % Drug effect term
-SLtg = p.SLtg ; % Slope of drug on tumor growth rate 1/day
+SLtg = p.SLtg; % Slope of drug on tumor growth rate 1/day
 kdegD = p.kdegD; % Drug degradation to cross endosomal space into tumor
 
 % Calculate parameters
@@ -28,12 +28,12 @@ kt1 = Qt / vis; % 1/day
 kprod = kdeg * (1 + Emaxtp * (y(5) / (EC50tp + y(5))));
 ROt = 100 * y(5) / (y(5) + y(6));
 DE = SLtg * ROt;
-if ROt> 0.01
+if ROt > 0.01
     DE = SLtg * ROt^gamma; % Avoid too small DE
-end 
+end
 
 % Constants
-MW = 149000*1000/10^9; % (mg/nmol) 
+MW = 149000 * 1000 / 10^9; % (mg/nmol)
 
 dydt = zeros(9, 1);
 
@@ -47,15 +47,15 @@ dydt = zeros(9, 1);
 % 8 = pembrolizumab in tumor clearance (mg) (complex degradation is also included);
 % 9 = current Drug in tumor compartment (mg) (pembrolizumab + pembrolizumab:PD1 complex)
 
-dydt(1) = k21 * y(2) / v1 * v2 - k12 * y(1) - kcl * y(1)+...
+dydt(1) = k21 * y(2) / v1 * v2 - k12 * y(1) - kcl * y(1) + ...
     kt1 * y(4) * MW * vis / v1 - k1t * y(1);
 dydt(2) = -k21 * y(2) + k12 * y(1) / v2 * v1;
 dydt(3) = kcl * y(1);
-dydt(4) = k1t * y(1) / MW * v1 / vis - kt1 * y(4) - kon * y(4) * y(6) + koff * y(5)...
-    -kdegD * y (4);
-dydt(5) = kon * y(4) * y(6) - koff* y(5) - kdeg * y(5);
-dydt(6) = kprod * P0 * vis0 / vis - kdeg * y(6) -...
+dydt(4) = k1t * y(1) / MW * v1 / vis - kt1 * y(4) - kon * y(4) * y(6) + koff * y(5) ...
+    -kdegD * y(4);
+dydt(5) = kon * y(4) * y(6) - koff * y(5) - kdeg * y(5);
+dydt(6) = kprod * P0 * vis0 / vis - kdeg * y(6) - ...
     kon * y(4) * y(6) + koff * y(5);
 dydt(7) = L0 * y(7) - DE * y(7);
-dydt(8) = kdegD * y(4) * MW * vis + kdeg * y(5) * MW * vis ;
+dydt(8) = kdegD * y(4) * MW * vis + kdeg * y(5) * MW * vis;
 dydt(9) = (dydt(4) + dydt(5)) * MW * vis;

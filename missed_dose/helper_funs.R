@@ -1,4 +1,4 @@
-#Function for processing 2C data================================
+# Function for processing 2C data================================
 process_data_2C <- function(data_list,
                             dosing_tag,
                             scheme) {
@@ -21,31 +21,35 @@ process_data_2C <- function(data_list,
   names(Ctrough_tab) <- dosing_tag
   AUC_tab <-
     pivot_longer(AUC_tab,
-                 cols = everything(),
-                 names_to = 'Dosing',
-                 values_to = 'AUC')
+      cols = everything(),
+      names_to = "Dosing",
+      values_to = "AUC"
+    )
   Cmax_tab <-
     pivot_longer(Cmax_tab,
-                 col = everything(),
-                 names_to = 'Dosing',
-                 values_to = 'Cmax')
+      col = everything(),
+      names_to = "Dosing",
+      values_to = "Cmax"
+    )
   Ctrough_tab <-
     pivot_longer(
       Ctrough_tab,
       col = everything(),
-      names_to = 'Dosing',
-      values_to = 'Ctrough'
+      names_to = "Dosing",
+      values_to = "Ctrough"
     )
   AUC_tab <-
-    as.data.frame(cbind(AUC_tab, 'Scheme' = rep(scheme, times = nrow(AUC_tab))))
+    as.data.frame(cbind(AUC_tab, "Scheme" = rep(scheme, times = nrow(AUC_tab))))
   Cmax_tab <-
-    as.data.frame(cbind(Cmax_tab, 'Scheme' = rep(scheme, times = nrow(Cmax_tab))))
+    as.data.frame(cbind(Cmax_tab, "Scheme" = rep(scheme, times = nrow(Cmax_tab))))
   Ctrough_tab <-
-    as.data.frame(cbind(Ctrough_tab, 'Scheme' = rep(scheme, times = nrow(Ctrough_tab))))
+    as.data.frame(cbind(Ctrough_tab, "Scheme" = rep(scheme, times = nrow(Ctrough_tab))))
   return_list <-
-    list('AUC' = AUC_tab,
-         'Cmax' = Cmax_tab,
-         'Ctrough' = Ctrough_tab)
+    list(
+      "AUC" = AUC_tab,
+      "Cmax" = Cmax_tab,
+      "Ctrough" = Ctrough_tab
+    )
 }
 
 retake_table <- function(item,
@@ -58,13 +62,15 @@ retake_table <- function(item,
     pivot_longer(
       temp,
       cols = everything(),
-      names_to = 'Scheme',
-      values_to = substr(names(item)[param_id],
-                         1, nchar(names(item)[param_id]) -
-                           7)
+      names_to = "Scheme",
+      values_to = substr(
+        names(item)[param_id],
+        1, nchar(names(item)[param_id]) -
+          7
+      )
     )
   temp <-
-    as.data.frame(cbind(temp, 'Dosing' = rep(dosing_method, times = nrow(temp))))
+    as.data.frame(cbind(temp, "Dosing" = rep(dosing_method, times = nrow(temp))))
 }
 
 process_data_retake_2C <- function(data_list,
@@ -76,7 +82,7 @@ process_data_retake_2C <- function(data_list,
   dosing_id <- 1
   for (item in data_list)
   {
-    dosing_method = dosing_tag[dosing_id]
+    dosing_method <- dosing_tag[dosing_id]
     if (dosing_id == 1) {
       AUC_tab <- retake_table(item, 1, retake_tag, dosing_method)
       Cmax_tab <- retake_table(item, 2, retake_tag, dosing_method)
@@ -90,18 +96,22 @@ process_data_retake_2C <- function(data_list,
     Cmax_tab <-
       rbind(Cmax_tab, retake_table(item, 2, retake_tag, dosing_method))
     Ctrough_tab <-
-      rbind(Ctrough_tab,
-            retake_table(item, 3, retake_tag, dosing_method))
+      rbind(
+        Ctrough_tab,
+        retake_table(item, 3, retake_tag, dosing_method)
+      )
     dosing_id <- dosing_id + 1
   }
   return_list <-
-    list('AUC' = AUC_tab,
-         'Cmax' = Cmax_tab,
-         'Ctrough' = Ctrough_tab)
+    list(
+      "AUC" = AUC_tab,
+      "Cmax" = Cmax_tab,
+      "Ctrough" = Ctrough_tab
+    )
 }
 
 
-#Function for processing 3C data============================================
+# Function for processing 3C data============================================
 process_data_3C <- function(data_list,
                             dosing_tag,
                             scheme) {
@@ -127,62 +137,64 @@ process_data_3C <- function(data_list,
   Ctrough_tab <- as.data.frame(Ctrough_tab)
   DCmin_tab <- as.data.frame(DCmin_tab)
   TumorR_tab <- as.data.frame(TumorR_tab)
-  
+
   names(AUC_tab) <- dosing_tag
   names(Cmax_tab) <- dosing_tag
   names(Ctrough_tab) <- dosing_tag
   names(DCmin_tab) <- dosing_tag
   names(TumorR_tab) <- dosing_tag
-  
+
   AUC_tab <-
     pivot_longer(AUC_tab,
-                 cols = everything(),
-                 names_to = 'Dosing',
-                 values_to = 'AUC')
+      cols = everything(),
+      names_to = "Dosing",
+      values_to = "AUC"
+    )
   Cmax_tab <-
     pivot_longer(Cmax_tab,
-                 col = everything(),
-                 names_to = 'Dosing',
-                 values_to = 'Cmax')
+      col = everything(),
+      names_to = "Dosing",
+      values_to = "Cmax"
+    )
   Ctrough_tab <-
     pivot_longer(
       Ctrough_tab,
       col = everything(),
-      names_to = 'Dosing',
-      values_to = 'Ctrough'
+      names_to = "Dosing",
+      values_to = "Ctrough"
     )
   DCmin_tab <-
     pivot_longer(
       DCmin_tab,
       col = everything(),
-      names_to = 'Dosing',
-      values_to = 'DrugComplex_min'
+      names_to = "Dosing",
+      values_to = "DrugComplex_min"
     )
   TumorR_tab <-
     pivot_longer(
       TumorR_tab,
       col = everything(),
-      names_to = 'Dosing',
-      values_to = 'Tumor_Ratio'
+      names_to = "Dosing",
+      values_to = "Tumor_Ratio"
     )
-  
+
   AUC_tab <-
-    as.data.frame(cbind(AUC_tab, 'Scheme' = rep(scheme, times = nrow(AUC_tab))))
+    as.data.frame(cbind(AUC_tab, "Scheme" = rep(scheme, times = nrow(AUC_tab))))
   Cmax_tab <-
-    as.data.frame(cbind(Cmax_tab, 'Scheme' = rep(scheme, times = nrow(Cmax_tab))))
+    as.data.frame(cbind(Cmax_tab, "Scheme" = rep(scheme, times = nrow(Cmax_tab))))
   Ctrough_tab <-
-    as.data.frame(cbind(Ctrough_tab, 'Scheme' = rep(scheme, times = nrow(Ctrough_tab))))
+    as.data.frame(cbind(Ctrough_tab, "Scheme" = rep(scheme, times = nrow(Ctrough_tab))))
   DCmin_tab <-
-    as.data.frame(cbind(DCmin_tab, 'Scheme' = rep(scheme, times = nrow(DCmin_tab))))
+    as.data.frame(cbind(DCmin_tab, "Scheme" = rep(scheme, times = nrow(DCmin_tab))))
   TumorR_tab <-
-    as.data.frame(cbind(TumorR_tab, 'Scheme' = rep(scheme, times = nrow(TumorR_tab))))
+    as.data.frame(cbind(TumorR_tab, "Scheme" = rep(scheme, times = nrow(TumorR_tab))))
   return_list <-
     list(
-      'AUC' = AUC_tab,
-      'Cmax' = Cmax_tab,
-      'Ctrough' = Ctrough_tab,
-      'DrugComplex_min' = DCmin_tab,
-      'Tumor_Ratio' = TumorR_tab
+      "AUC" = AUC_tab,
+      "Cmax" = Cmax_tab,
+      "Ctrough" = Ctrough_tab,
+      "DrugComplex_min" = DCmin_tab,
+      "Tumor_Ratio" = TumorR_tab
     )
 }
 
@@ -197,7 +209,7 @@ process_data_retake_3C <- function(data_list,
   dosing_id <- 1
   for (item in data_list)
   {
-    dosing_method = dosing_tag[dosing_id]
+    dosing_method <- dosing_tag[dosing_id]
     if (dosing_id == 1) {
       AUC_tab <- retake_table(item, 1, retake_tag, dosing_method)
       Cmax_tab <- retake_table(item, 2, retake_tag, dosing_method)
@@ -213,22 +225,28 @@ process_data_retake_3C <- function(data_list,
     Cmax_tab <-
       rbind(Cmax_tab, retake_table(item, 2, retake_tag, dosing_method))
     Ctrough_tab <-
-      rbind(Ctrough_tab,
-            retake_table(item, 3, retake_tag, dosing_method))
+      rbind(
+        Ctrough_tab,
+        retake_table(item, 3, retake_tag, dosing_method)
+      )
     DCmin_tab <-
-      rbind(DCmin_tab,
-            retake_table(item, 4, retake_tag, dosing_method))
+      rbind(
+        DCmin_tab,
+        retake_table(item, 4, retake_tag, dosing_method)
+      )
     TumorR_tab <-
-      rbind(TumorR_tab,
-            retake_table(item, 5, retake_tag, dosing_method))
+      rbind(
+        TumorR_tab,
+        retake_table(item, 5, retake_tag, dosing_method)
+      )
     dosing_id <- dosing_id + 1
   }
   return_list <-
     list(
-      'AUC' = AUC_tab,
-      'Cmax' = Cmax_tab,
-      'Ctrough' = Ctrough_tab,
-      'DrugComplex_min' = DCmin_tab,
-      'Tumor_Ratio' = TumorR_tab
+      "AUC" = AUC_tab,
+      "Cmax" = Cmax_tab,
+      "Ctrough" = Ctrough_tab,
+      "DrugComplex_min" = DCmin_tab,
+      "Tumor_Ratio" = TumorR_tab
     )
 }
